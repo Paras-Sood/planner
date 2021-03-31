@@ -9,9 +9,12 @@ class task(models.Model):
     stime=models.TimeField()
     edate=models.DateField()
     etime=models.TimeField()
-    title=models.CharField()
-    description=models.CharField()
+    title=models.CharField(max_length=64)
+    description=models.CharField(max_length=400)
 
-class User(AbstractUser):
+class User(models.Model):
+    username=models.CharField(max_length=20)
+    password=models.CharField(max_length=20)
+    email=models.EmailField(blank=True)
     tasks=models.ForeignKey(task,on_delete=CASCADE)
 

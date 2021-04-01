@@ -1,32 +1,36 @@
 {% extends "tasks/layout.html" %}
 
 {% block body %}
-    <div class="row">
-        <div class="tasks col-lg-4 col-md-3">
-            <h1 style="padding-bottom: 20px;">Tasks</h1>
-        </div>
-        <div class="stime col-lg-4 col-md-5" style="padding-top: 70px; text-align: center;">Start</div>
-        <div class="etime col-lg-4 col-md-4" style="padding-top: 70px;text-align: center;">End</div>
-    </div>
-    <div class="row">
-        <div class="col-lg-4 col-md-3">
-            <ul>
-                {% for task in tasks %}
-                <li> From {{task.sdate}} ({{task.stime}}) to {{tsak.edate}} ({{task.etime}})</li>
-                {% empty %}
-                <li>No Tasks Pending</li>
-                {% endfor %}
-            </ul>
-        </div>
-        <!-- <div style="padding-left: 80px;">
-            <h3>Hii</h3>
-            <ul>
-                {% for entry in content %}
-                    <li style="list-style: none;">{{entry}}</li>
-                    <h2>Hello</h2>
-                {% endfor %}
-            </ul>
-        </div> -->
-    </div>
+    {% if user.is_authenticated %}
 
+        <div class="row">
+            <div class="tasks col-lg-4 col-md-3">
+                <h1 style="padding-bottom: 20px;">Tasks</h1>
+            </div>
+            <div class="stime col-lg-4 col-md-5" style="padding-top: 70px; text-align: center;">Start</div>
+            <div class="etime col-lg-4 col-md-4" style="padding-top: 70px;text-align: center;">End</div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-3">
+                <ul>
+                    {% for task in tasks %}
+                    <li> From {{task.sdate}} ({{task.stime}}) to {{tsak.edate}} ({{task.etime}})</li>
+                    {% empty %}
+                    <li>No Tasks Pending</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <!-- <div style="padding-left: 80px;">
+                <h3>Hii</h3>
+                <ul>
+                    {% for entry in content %}
+                        <li style="list-style: none;">{{entry}}</li>
+                        <h2>Hello</h2>
+                    {% endfor %}
+                </ul>
+            </div> -->
+        </div>
+    {% else %}
+        <span>Login to view your tasks</span>
+    {% endif %}
 {% endblock %}

@@ -6,8 +6,8 @@ from django.contrib.auth import authenticate,login,logout
 from django.shortcuts import render
 from django import forms
 from . import util
-from .models import User
-
+from .models import User, task
+import datetime
 # class NewTaskForm(forms.Form):
 #     name=forms.CharField(label="name")
 
@@ -24,11 +24,14 @@ from .models import User
 #     })
 
 def index(request):
-    return render(request, "planner/index.html",{
-        "tasks":User.tasks.all()
-    })
+    # return render(request, "tasks/index.html")
+    print("Index")
+    return render(request,"tasks/index.html",{
+            "tasks":User.tasks.all(),
+        })
 
 def add(request):
+    # pass
     if request.method == "POST":
         title=request.POST["title"]
         sdate=request.POST['sdate']
@@ -36,9 +39,11 @@ def add(request):
         stime=request.POST['stime']
         etime=request.POST['etime']
         description=request.POST['description']
-        User.task.add()
+        # User.task.add()
+        task = task.objects.create(title,sdate,edate,stime,etime,description)
+        task.save()
         return render(request,"tasks/index.html",{
-            "title":title,
+            "tasks":User.tasks.all(),
         })
         # form=NewTaskForm(request.POST)
         # if form.is_valid():
@@ -58,17 +63,17 @@ def login_view(request):
         username = request.POST["username"]
         password = request.POST["password"]
         user = authenticate(request, username=username, password=password)
-
+        print(f"User = {user}")
         # Check if authentication successful
         if user is not None:
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
         else:
-            return render(request, "auctions/login.html", {
+            return render(request, "tasks/login.html", {
                 "message": "Invalid username and/or password."
             })
     else:
-        return render(request, "auctions/login.html")
+        return render(request, "tasks/login.html")
 
 
 def logout_view(request):
@@ -78,26 +83,36 @@ def logout_view(request):
 
 def register(request):
     if request.method == "POST":
-        username = request.POST["username"]
-        email = request.POST["email"]
-
+        print("IN")
+        uname = request.POST["username"]
+        em = request.POST["email"]
+        print("Got")
         # Ensure password matches confirmation
-        password = request.POST["password"]
+        pswd = request.POST["password"]
         confirmation = request.POST["confirmation"]
-        if password != confirmation:
-            return render(request, "auctions/register.html", {
+        if pswd != confirmation:
+            return render(request, "tasks/register.html", {
                 "message": "Passwords must match."
             })
-
+        print("Try")
         # Attempt to create new user
         try:
-            user = User.objects.create_user(username, email, password)
+            # user = User.objects.create(username, email, password)
+            user = User.create(username=uname,password=pswd,email=em)
             user.save()
+            print(f"Saved {user}")
+            test = authenticate(request, username=uname, password=pswd)
+            print(f"User = {test}")
         except IntegrityError:
-            return render(request, "auctions/register.html", {
+            return render(request, "tasks/register.html", {
                 "message": "Username already taken."
             })
-        login(request, user)
+        # user = User(username=username,email=email,password=password)
+        # user.save()
+        print(f"After {user.username}")
+        return HttpResponseRedirect(reverse("login"))
+        login(request, User.objects.get(username=username))
+        print("Login")
         return HttpResponseRedirect(reverse("index"))
     else:
-        return render(request, "auctions/register.html")
+        return render(request, "tasks/register.html")

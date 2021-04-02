@@ -3,7 +3,8 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.db import IntegrityError
 from django.contrib.auth import authenticate,login,logout
-from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.shortcuts import redirect, render
 from django import forms
 from . import util
 from .models import User, task
@@ -25,10 +26,13 @@ import datetime
 
 def index(request):
     # return render(request, "tasks/index.html")
-    print("Index")
-    return render(request,"tasks/index.html",{
-            "tasks":User.tasks.all(),
-        })
+    # if request.method == "POST":
+    # uname=request.POST["username"]
+    # print(f"uname {uname}")
+    # user=User.objects.get(username=uname)
+    # print(f"user {user}")
+    return render(request,"tasks/index.html")
+    # return HttpResponse("<h1>Here</h1>")
 
 def add(request):
     # pass
@@ -39,12 +43,15 @@ def add(request):
         stime=request.POST['stime']
         etime=request.POST['etime']
         description=request.POST['description']
+        user_id=request.POST['user_id']
+        owner=User.objects.get(pk=user_id)
         # User.task.add()
-        task = task.objects.create(title,sdate,edate,stime,etime,description)
-        task.save()
-        return render(request,"tasks/index.html",{
-            "tasks":User.tasks.all(),
-        })
+        # ntask=task.objects.create()
+        tsk = task(sdate= sdate,edate= edate,stime= stime,etime= etime,title= title,description= description,owner=owner)
+        print(f"Task {tsk}")
+        tsk.save()
+        owner.tasks.add(tsk)
+        return HttpResponseRedirect(reverse('index'))
         # form=NewTaskForm(request.POST)
         # if form.is_valid():
         #     name=form.cleaned_data["name"]
@@ -63,11 +70,14 @@ def login_view(request):
         username = request.POST["username"]
         password = request.POST["password"]
         user = authenticate(request, username=username, password=password)
+        test=User.objects.get(username=username)
         print(f"User = {user}")
+        print(f"Test = {test.password}")
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse('index'))
+            # return HttpResponseRedirect(reverse("index"))
         else:
             return render(request, "tasks/login.html", {
                 "message": "Invalid username and/or password."
@@ -98,7 +108,7 @@ def register(request):
         # Attempt to create new user
         try:
             # user = User.objects.create(username, email, password)
-            user = User.create(username=uname,password=pswd,email=em)
+            user = User.objects.create_user(username=uname,password=pswd,email=em)
             user.save()
             print(f"Saved {user}")
             test = authenticate(request, username=uname, password=pswd)
@@ -110,8 +120,8 @@ def register(request):
         # user = User(username=username,email=email,password=password)
         # user.save()
         print(f"After {user.username}")
-        return HttpResponseRedirect(reverse("login"))
-        login(request, User.objects.get(username=username))
+        # return HttpResponseRedirect(reverse("login"))
+        login(request, User.objects.get(username=uname))
         print("Login")
         return HttpResponseRedirect(reverse("index"))
     else:

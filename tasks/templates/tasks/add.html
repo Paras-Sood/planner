@@ -10,7 +10,7 @@
         <!-- {% if not ongoing %} -->
             <label for="title">Title: </label>
             <input type="text" name="title">
-            <textarea name="description" cols="30" rows="10">Description</textarea>
+            <textarea name="description" cols="30" rows="10" placeholder="Description"></textarea>
             <label for="sdate">Start Date</label>
             <input type="date" placeholder="Start Date" name="sdate">
             <label for="stime">Start Time</label>
@@ -19,6 +19,7 @@
             <input type="date" placeholder="End Date" name="edate">
             <label for="etime">Start Time</label>
             <input type="time" placeholder="End Time" name="etime">
+            <input type="hidden" value="{{user.id}}" name="user_id">
         <!-- {% endif %} -->
         <!-- <label for="end">End</label>
         <input type="datetime-local" placeholder="End" name="end"> -->

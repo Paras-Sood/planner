@@ -14,7 +14,7 @@
                 {% if user.is_authenticated %}
                     <span>Signed in as <strong>{{ user.username }}</strong></span>
                     <div><a href="{% url 'index' %}">Home</a></div>
-                    <div><a href="{% url 'add' %}">Add New Task</a></div>
+                    <div><a href="{% url 'add'%}">Add New Task</a></div>
                     <div><a href="{% url 'logout' %}">Logout</a></div>
                 {% else %}
                     <div><a href="{% url 'login' %}">Login</a></div>

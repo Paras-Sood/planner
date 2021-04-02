@@ -1,0 +1,31 @@
+{% extends "tasks/layout.html" %}
+
+{% block body %}
+    {% if user.is_authenticated %}
+    <h1>{{task.title}}</h1>
+    <div class="row">
+        <div class="col-lg-6">
+            <div>
+                <strong>Start Date:</strong> {{task.sdate}}
+            </div>
+            <div>
+                <strong>Start Time:</strong> {{task.stime}}
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div>
+                <strong>End Date:</strong> {{task.edate}}
+            </div>
+            <div>
+                <strong>End Time:</strong> {{task.etime}}
+            </div>
+        </div>
+    </div>
+    <div style="padding-top: 10px;">
+        <p><strong>Description:</strong> {{task.description}}</p>
+    </div>
+    <a href="{% url 'index' %}">Go back</a>
+    {% else %}
+        Access Denied
+    {% endif %}
+{% endblock %}

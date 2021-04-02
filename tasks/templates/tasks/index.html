@@ -4,35 +4,16 @@
     {% if user.is_authenticated %}
 
         <div class="row">
-            <!-- <div class="tasks col-lg-4 col-md-3"> -->
-        <h1 style="padding: 20px;">Tasks</h1>
-            <!-- </div> -->
-            <!-- <div class="stime col-lg-4 col-md-5" style="padding-top: 70px; text-align: center;">Start</div>
-            <div class="etime col-lg-4 col-md-4" style="padding-top: 70px;text-align: center;">End</div> -->
+            <h1 style="padding: 20px;">Tasks</h1>
         </div>
         <div>
             <ol>
                 {% for task in user.tasks.all %}
-                <li style="padding: 5px;"><a href="{% url 'task_view' task.id %}">{{task.title}}</a> : From {{task.sdate}} at {{task.stime}}</li>
+                    <li style="padding: 5px;"><a href="{% url 'task_view' task.id %}">{{task.title}}</a> : From {{task.sdate}} at {{task.stime}}</li>
                 {% empty %}
-                <li>No Tasks</li>
+                    <li>No Tasks</li>
                 {% endfor %}
-                <!-- {% for task in tasks %}
-                    <li> From {{task.sdate}} ({{task.stime}}) to {{tsak.edate}} ({{task.etime}})</li>
-                    {% empty %}
-                    <li>No Tasks Pending</li>
-                {% endfor %} -->
-                {{tasks}}
             </ol>
-            <!-- <div style="padding-left: 80px;">
-                <h3>Hii</h3>
-                <ul>
-                    {% for entry in content %}
-                        <li style="list-style: none;">{{entry}}</li>
-                        <h2>Hello</h2>
-                    {% endfor %}
-                </ul>
-            </div> -->
         </div>
     {% else %}
         <span>Login to view your tasks</span>

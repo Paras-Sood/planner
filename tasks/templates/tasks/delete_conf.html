@@ -1,0 +1,31 @@
+{% extends "tasks/layout.html" %}
+
+{% block body %}
+    {% if user.is_authenticated and task.owner.id == user.id %}
+    {% if message %}
+    <span>{{message}}</span>
+    {% endif %}
+    <h3 style="text-align: center;justify-content: center;color: red;">Enter password to delete "{{task.title}}"?</h3>
+    <div class="container" style="width: 40%;margin: auto;">
+            <div>
+                <!-- <input type="hidden" name=""> -->
+                <form action="{% url 'delete' task.id %}" method="POST" style="align-items: center;">
+                    {% csrf_token %}
+                    <div style="padding: 10px;">
+                        <input type="password" name="password" placeholder="Password">
+                    </div>
+                    <input type="hidden" name="username" value="{{user.username}}">
+                    <div>
+                        <input type="submit" value="Submit" style="margin: auto 71px;">
+                    </div>
+                </form>
+                <!-- <a href="{% url 'delete' task.id %}" style="padding: 3px;">Yes</a> -->
+                <div>
+                    <a href="{% url 'index' %}" style="padding: 3px 0;align-items: center;margin: 10px 71px;">Cancel</a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <h1 style="color: red;">Access Denied</h1>
+    {% endif %}
+{% endblock %}

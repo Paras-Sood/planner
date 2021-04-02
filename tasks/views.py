@@ -1,3 +1,4 @@
+from django.contrib import auth
 from django.http.response import HttpResponse
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -83,5 +84,23 @@ def task_view(request,task_id):
     # tsk=task.objects.get(pk=task_id,owner=temp)
     tsk=task.objects.get(pk=task_id)
     return render(request,"tasks/task.html",{
+        "task":tsk
+    })
+
+def delete(request,task_id):
+    tsk=task.objects.get(pk=task_id)
+    if request.method=="POST":
+        username=request.POST['username']
+        password=request.POST['password']
+        user=authenticate(request, username=username,password=password)
+        # print(f"Up = {user.password}")
+        if user is not None:
+            tsk.delete()
+            return redirect('index')
+        return render(request,"tasks/delete_conf.html",{
+            "message":"Wrong Password",
+            "task":tsk
+        })
+    return render(request,"tasks/delete_conf.html",{
         "task":tsk
     })

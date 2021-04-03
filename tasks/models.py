@@ -28,8 +28,6 @@ class task(models.Model):
     etime=models.TimeField()
     title=models.CharField(max_length=64)
     description=models.CharField(max_length=400)
-    # username=models.CharField(max_length=20)
-    # password=models.CharField(max_length=20)
     owner=models.ForeignKey(User,on_delete=CASCADE,related_name="tasks")
 
     def create_task(self,sdate,edate,stime,etime,title,des):

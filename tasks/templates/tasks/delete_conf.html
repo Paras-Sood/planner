@@ -2,11 +2,11 @@
 
 {% block body %}
     {% if user.is_authenticated and task.owner.id == user.id %}
-    {% if message %}
-    <span>{{message}}</span>
-    {% endif %}
     <h3 style="text-align: center;justify-content: center;color: red;">Enter password to delete "{{task.title}}"?</h3>
     <div class="container" style="width: 40%;margin: auto;">
+        {% if message %}
+        <strong>{{message}}</strong>
+        {% endif %}
             <div>
                 <!-- <input type="hidden" name=""> -->
                 <form action="{% url 'delete' task.id %}" method="POST" style="align-items: center;">

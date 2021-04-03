@@ -17,11 +17,16 @@ def index(request):
 def add(request):
     if request.method == "POST":
         title=request.POST["title"]
+        description=request.POST['description']
+        if title=="":
+            print("Here")
+            return render(request,"tasks/add.html",{
+                "message":"Title can't be empty"
+            })
         sdate=request.POST['sdate']
         edate=request.POST['edate']
         stime=request.POST['stime']
         etime=request.POST['etime']
-        description=request.POST['description']
         user_id=request.POST['user_id']
         owner=User.objects.get(pk=user_id)
         tsk = task(sdate= sdate,edate= edate,stime= stime,etime= etime,title= title,description= description,owner=owner)
@@ -82,12 +87,20 @@ def register(request):
 def task_view(request,task_id):
     # temp=User.objects.get(pk=user_id)
     # tsk=task.objects.get(pk=task_id,owner=temp)
+    temp=task.objects.filter(pk=task_id)
+    print(temp)
+    if len(temp)==0:
+        return HttpResponse("<h1>Error 404 Not Found</h1>")
     tsk=task.objects.get(pk=task_id)
     return render(request,"tasks/task.html",{
         "task":tsk
     })
 
 def delete(request,task_id):
+    temp=task.objects.filter(pk=task_id)
+    print(temp)
+    if len(temp)==0:
+        return HttpResponse("<h1>Error 404 Not Found</h1>")
     tsk=task.objects.get(pk=task_id)
     if request.method=="POST":
         username=request.POST['username']

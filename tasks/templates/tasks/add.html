@@ -1,7 +1,10 @@
 {% extends "tasks/layout.html" %}
-
+{% load static %}
 {% block body %}
-    <h1>Add New Task</h1>
+    <h1 style="padding-bottom: 10px;">Add New Task</h1>
+    {% if message %}
+        <strong>{{message}}</strong>
+    {% endif %}
     <form action="{% url 'add' %}" method="POST">
         {% csrf_token %}
         <!-- <input type="text" placeholder="Name" name="name"> -->
@@ -10,20 +13,34 @@
         <!-- {% if not ongoing %} -->
             <label for="title">Title: </label>
             <input type="text" name="title">
-            <textarea name="description" cols="30" rows="10" placeholder="Description"></textarea>
-            <label for="sdate">Start Date</label>
-            <input type="date" placeholder="Start Date" name="sdate">
-            <label for="stime">Start Time</label>
-            <input type="time" placeholder="Start Time" name="stime">
-            <label for="edate">End Date</label>
-            <input type="date" placeholder="End Date" name="edate">
-            <label for="etime">Start Time</label>
-            <input type="time" placeholder="End Time" name="etime">
+            <div>
+                <textarea name="description" cols="10" rows="4" placeholder="Description"></textarea>
+            </div>
+            <div style="display: flex;flex-wrap: wrap;">
+                <div style="margin: 5px;">
+                    <label for="sdate">Start Date</label>
+                    <input type="date" placeholder="Start Date" name="sdate">
+                </div>
+                <div style="margin: 5px;">
+                    <label for="stime">Start Time</label>
+                    <input type="time" placeholder="Start Time" name="stime">
+                </div>
+                <div style="margin: 5px;">
+                    <label for="edate">End Date</label>
+                    <input type="date" placeholder="End Date" name="edate">
+                </div>
+                <div style="margin: 5px;">
+                    <label for="etime">End Time</label>
+                    <input type="time" placeholder="End Time" name="etime">
+                </div>
+            </div>
             <input type="hidden" value="{{user.id}}" name="user_id">
         <!-- {% endif %} -->
         <!-- <label for="end">End</label>
         <input type="datetime-local" placeholder="End" name="end"> -->
-        <input type="submit">
+        <div style="width: 90%;padding: 20px;">
+            <input type="submit" style="float: right;">
+        </div>
     </form>
 
 {% endblock %}

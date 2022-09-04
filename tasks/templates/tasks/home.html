@@ -1,12 +1,12 @@
-{% extends "tasks/layout.html" %}
+{% extends "tasks/task_landing.html" %}
 
 {% block body %}
     {% if user.is_authenticated %}
 
         <div class="row">
-            <h1 style="padding: 20px;">Welcome {{user.username}}</h1>
+            <h1 style="padding: 20px;">Tasks</h1>
         </div>
-        <!-- <div>
+        <div>
             <ol>
                 {% for task in user.tasks.all %}
                     <li style="padding: 5px;"><a href="{% url 'tasks:task_view' task.id %}">{{task.title}}</a> : From {{task.sdate}} at {{task.stime}}</li>
@@ -14,7 +14,7 @@
                     <li>No Tasks</li>
                 {% endfor %}
             </ol>
-        </div> -->
+        </div>
     {% else %}
         <span>Login to view your tasks</span>
     {% endif %}

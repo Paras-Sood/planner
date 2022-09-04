@@ -19,6 +19,7 @@ from django.urls.conf import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include("tasks.urls")),
-    path('tasks/',include("tasks.urls"))
+    path('tasks/',include("tasks.urls")),
+    path('notes/',include("notes.urls")),
+    path('',include("tasks.urls"))
 ]

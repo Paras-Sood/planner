@@ -13,7 +13,8 @@
                 <h2>Planner</h2>
                 {% if user.is_authenticated %}
                     <span>Signed in as <strong>{{ user.username }}</strong></span>
-                    <div><a href="{% url 'tasks:home' %}">Tasks</a></div>
+                    <div><a href="{% url 'tasks:home' %}">Home</a></div>
+                    <div><a href="{% url 'tasks:add'%}">Add New Task</a></div>
                     <div><a href="{% url 'notes:index'%}">Notes</a></div>
                     <div><a href="{% url 'tasks:logout' %}">Logout</a></div>
                 {% else %}

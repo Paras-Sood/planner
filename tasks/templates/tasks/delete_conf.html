@@ -9,7 +9,7 @@
         {% endif %}
             <div>
                 <!-- <input type="hidden" name=""> -->
-                <form action="{% url 'delete' task.id %}" method="POST" style="align-items: center;">
+                <form action="{% url 'tasks:delete' task.id %}" method="POST" style="align-items: center;">
                     {% csrf_token %}
                     <div style="padding: 10px;">
                         <input type="password" name="password" placeholder="Password">
@@ -19,9 +19,8 @@
                         <input type="submit" value="Submit" style="margin: auto 71px;">
                     </div>
                 </form>
-                <!-- <a href="{% url 'delete' task.id %}" style="padding: 3px;">Yes</a> -->
                 <div>
-                    <a href="{% url 'index' %}" style="padding: 3px 0;align-items: center;margin: 10px 71px;">Cancel</a>
+                    <a href="{% url 'tasks:home' %}" style="padding: 3px 0;align-items: center;margin: 10px 71px;">Cancel</a>
                 </div>
             </div>
         </div>

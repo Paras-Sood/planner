@@ -1,0 +1,41 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'notes/styles.css' %}">
+    {% block head %}{% endblock %}
+    <title>Notes</title>
+</head>
+<body>
+    <header>
+        <div style="display: flex;">
+            <div class="head">
+                <ul>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'notes:index' %}"><li>Home</li></a>
+                    <a href="{% url 'notes:addNote' %}"><li>Add new note</li></a>
+                    <a href="{% url 'tasks:home' %}"><li>Tasks</li></a>
+                    <a href="{% url 'tasks:logout' %}"><li>Logout</li></a>
+                    {% else %}
+                    <a href="{% url 'tasks:login' %}">Login</a>
+                    <a href="{% url 'tasks:register' %}">Register</a>
+                    {% endif %}
+                </ul>
+            </div>
+            {% if user.is_authenticated %}
+                <div style="width: auto;padding: 15px;">
+                    <strong>Hello {{user.username}}</strong>
+                </div>
+            {% endif %}
+        </div>
+    </header>
+    <div>
+        {% block body %}
+        {% endblock %}
+    </div>
+</body>
+</html>

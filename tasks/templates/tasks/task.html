@@ -25,8 +25,8 @@
         <div style="padding-top: 10px;">
             <p><strong>Description:</strong> {{task.description}}</p>
         </div>
-        <a href="{% url 'delete' task.id %}" style="float: right;margin-right: 20px;">Delete</a>
-        <a href="{% url 'index' %}">Go back</a>
+        <a href="{% url 'tasks:delete' task.id %}" style="float: right;margin-right: 20px;">Delete</a>
+        <a href="{% url 'tasks:home' %}">Go back</a>
     </div>
         {% else %}
         <h1 style="color: red;">Access Denied</h1>

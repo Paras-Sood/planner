@@ -32,7 +32,7 @@ def add(request):
         tsk = task(sdate= sdate,edate= edate,stime= stime,etime= etime,title= title,description= description,owner=owner)
         tsk.save()
         owner.tasks.add(tsk)
-        return HttpResponseRedirect(reverse('index'))
+        return HttpResponseRedirect(reverse('tasks:home'))
     return render(request, "tasks/add.html")
 
 def login_view(request):
@@ -46,7 +46,7 @@ def login_view(request):
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse('index'))
+            return HttpResponseRedirect(reverse('tasks:index'))
         else:
             return render(request, "tasks/login.html", {
                 "message": "Invalid username and/or password."
@@ -57,7 +57,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(reverse('tasks:index'))
 
 
 def register(request):
@@ -80,7 +80,7 @@ def register(request):
                 "message": "Username already taken."
             })
         login(request, user)
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("tasks:index"))
     else:
         return render(request, "tasks/register.html")
 
@@ -109,7 +109,7 @@ def delete(request,task_id):
         # print(f"Up = {user.password}")
         if user is not None:
             tsk.delete()
-            return redirect('index')
+            return HttpResponseRedirect(reverse('tasks:home'))
         return render(request,"tasks/delete_conf.html",{
             "message":"Wrong Password",
             "task":tsk
@@ -117,3 +117,6 @@ def delete(request,task_id):
     return render(request,"tasks/delete_conf.html",{
         "task":tsk
     })
+
+def home(request):
+    return render(request,"tasks/home.html")
